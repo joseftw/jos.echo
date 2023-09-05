@@ -26,6 +26,9 @@ jobs:
         with:
           dotnet-version: 8.0.x
           dotnet-quality: 'preview'
+      - name: Build
+        run: |
+          dotnet build src/JOS.Betty  -c Release --verbosity minimal
       # Docker
       - name: Docker - Setup QEMU
         uses: docker/setup-qemu-action@v2   # https://github.com/docker/setup-qemu-action
