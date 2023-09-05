@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{583D670E-8242-4E73-AD08-AC7B34D171EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOS.Echo", "src\JOS.Echo\JOS.Echo.csproj", "{35FFACFC-3AD0-41DA-BA7C-0C5FDEA8568C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35FFACFC-3AD0-41DA-BA7C-0C5FDEA8568C} = {583D670E-8242-4E73-AD08-AC7B34D171EF}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35FFACFC-3AD0-41DA-BA7C-0C5FDEA8568C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35FFACFC-3AD0-41DA-BA7C-0C5FDEA8568C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35FFACFC-3AD0-41DA-BA7C-0C5FDEA8568C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35FFACFC-3AD0-41DA-BA7C-0C5FDEA8568C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

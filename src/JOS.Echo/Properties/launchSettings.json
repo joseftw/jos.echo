@@ -1,0 +1,12 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "server__port": "5555",
+        "https__certificate": null
+      }
+    }
+  }
+}
