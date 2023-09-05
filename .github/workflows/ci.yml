@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
-    paths:
-      - src/JOS.Echo/**
 
 jobs:
   build:
