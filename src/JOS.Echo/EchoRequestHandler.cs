@@ -7,6 +7,12 @@ public static class EchoRequestHandler
         var certificate = mountedCertificateReader.Read();
         return Results.Ok(new
         {
+            Version = new
+            {
+                Assembly = ThisAssembly.AssemblyVersion,
+                FileVersion = ThisAssembly.AssemblyFileVersion,
+                Informational = ThisAssembly.AssemblyInformationalVersion
+            },
             Certificate = new
             {
                 NotBefore = certificate?.NotBefore,
