@@ -17,11 +17,13 @@ public static class EchoRequestHandler
             {
                 NotBefore = certificate?.NotBefore,
                 NotAfter = certificate?.NotAfter,
-                Subject = certificate?.SubjectName.Name
+                SerialNumber = certificate?.SerialNumber,
+                Subject = certificate?.SubjectName.Name,
+                Thumbprint = certificate?.Thumbprint
             },
             Request = new
             {
-                httpContext.Request.Headers,
+                Headers = httpContext.Request.Headers.OrderBy(x => x.Key),
                 Protocol = httpContext.Request.Protocol
             }
         });
