@@ -23,7 +23,7 @@ public static class EchoRequestHandler
             },
             Request = new
             {
-                Headers = httpContext.Request.Headers.OrderBy(x => x.Key),
+                Headers = httpContext.Request.Headers.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value),
                 Protocol = httpContext.Request.Protocol
             }
         });
