@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-preview-bookworm-slim-amd64 as builder
+FROM mcr.microsoft.com/dotnet/sdk:8.0-preview as builder
 # https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-environment-variables
 ENV NUGET_XMLDOC_MODE=none
 COPY . app/
@@ -6,7 +6,7 @@ WORKDIR /app
 
 RUN dotnet publish src/JOS.Echo -c Release -o published --no-build
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview
 
 COPY --from=builder /app/published/ /app/
 WORKDIR /app
