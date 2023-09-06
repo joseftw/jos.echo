@@ -21,7 +21,8 @@ public static class EchoRequestHandler
             },
             Request = new
             {
-                httpContext.Request.Headers
+                httpContext.Request.Headers,
+                Protocol = httpContext.Request.Protocol
             }
         });
     }
