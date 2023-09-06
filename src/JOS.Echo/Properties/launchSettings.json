@@ -5,7 +5,8 @@
       "commandName": "Project",
       "environmentVariables": {
         "server__port": "5555",
-        "https__certificate": null
+        "tls__certificate__certificatefile": "/Users/josef/dev/projects/jos.echo/certs/tls.crt",
+        "tls__certificate__keyfile": "/Users/josef/dev/projects/jos.echo/certs/tls.key"
       }
     }
   }
