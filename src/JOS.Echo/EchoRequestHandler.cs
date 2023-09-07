@@ -15,9 +15,9 @@ public static class EchoRequestHandler
         InformationalVersion =
             assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "n/a";
     }
-    public static IResult Handle(HttpContext httpContext, MountedCertificateReader mountedCertificateReader)
+    public static IResult Handle(HttpContext httpContext, CachingMountedCertificateReader certificateReader)
     {
-        var certificate = mountedCertificateReader.Read();
+        var certificate = certificateReader.Read();
         return Results.Ok(new
         {
             Version = new
@@ -35,6 +35,14 @@ public static class EchoRequestHandler
             },
             Request = new
             {
+                Connection = new
+                {
+                    httpContext.Connection.Id,
+                    httpContext.Connection.LocalPort,
+                    httpContext.Connection.RemotePort,
+                    LocalIp = httpContext.Connection.LocalIpAddress?.ToString(),
+                    RemoteIp = httpContext.Connection.RemoteIpAddress?.ToString()
+                },
                 Headers = httpContext.Request.Headers.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value),
                 httpContext.Request.Protocol
             }

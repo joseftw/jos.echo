@@ -11,11 +11,11 @@ public class MountedCertificateReader
         _tlsConfiguration = tlsConfiguration ?? throw new ArgumentNullException(nameof(tlsConfiguration));
     }
 
-    public X509Certificate2? Read()
+    public X509Certificate2 Read()
     {
         if (!_tlsConfiguration.HasCertificate)
         {
-            return null!;
+            throw new Exception("No certificate has been configured");
         }
 
         var certificate = _tlsConfiguration.Certificate!;

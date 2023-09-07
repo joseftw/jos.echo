@@ -11,9 +11,13 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview
 COPY --from=builder /app/published/ /app/
 WORKDIR /app
 
+RUN apt-get update && apt-get -y install libcap2-bin
+RUN setcap 'cap_net_bind_service=+ep' /usr/share/dotnet/dotnet
+
 USER 1000
 
-ENV ASPNETCORE_URLS https://+:5555
-EXPOSE 5555
+ENV ASPNETCORE_URLS https://+:443
+EXPOSE 443/tcp
+EXPOSE 443/udp
 
 ENTRYPOINT ["dotnet", "JOS.Echo.dll"]

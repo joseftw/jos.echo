@@ -6,19 +6,18 @@ var tlsConfiguration = new TlsConfiguration();
 builder.Configuration.Bind("tls", tlsConfiguration);
 var serverConfiguration = new ServerConfiguration();
 builder.Configuration.Bind("server", serverConfiguration);
-var providedCertificateQuery = new MountedCertificateReader(tlsConfiguration);
-builder.Services.AddSingleton(providedCertificateQuery);
+var certificateReader = new CachingMountedCertificateReader(new MountedCertificateReader(tlsConfiguration));
+builder.Services.AddSingleton(certificateReader);
 builder.WebHost.ConfigureKestrel((_, options) =>
 {
     options.ListenAnyIP(serverConfiguration.Port, listenOptions =>
     {
         if (tlsConfiguration.HasCertificate)
         {
-
             listenOptions.Protocols = HttpProtocols.Http2 | HttpProtocols.Http3;
             listenOptions.UseHttps(httpsOptions =>
             {
-                httpsOptions.ServerCertificateSelector = (_, _) => providedCertificateQuery.Read();
+                httpsOptions.ServerCertificateSelector = (_, _) => certificateReader.Read();
             });
         }
         else
@@ -31,7 +30,7 @@ builder.WebHost.ConfigureKestrel((_, options) =>
 var app = builder.Build();
 
 app.MapGet("/health", () => Results.Ok());
-app.MapGet("/", (HttpContext httpContext, MountedCertificateReader providedCertificateQuery)
-    => EchoRequestHandler.Handle(httpContext, providedCertificateQuery));
+app.MapGet("/", (HttpContext httpContext, CachingMountedCertificateReader cachingMountedCertificateReader)
+    => EchoRequestHandler.Handle(httpContext, cachingMountedCertificateReader));
 
 await app.RunAsync();
