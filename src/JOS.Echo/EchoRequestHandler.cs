@@ -12,10 +12,10 @@ public static class EchoRequestHandler
     {
         var assembly = typeof(Program).Assembly;
 
-        Assembly = assembly.GetCustomAttribute<AssemblyVersionAttribute>()!.Version;
-        FileVersion = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()!.Version;
+        Assembly = assembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version ?? "n/a";
+        FileVersion = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version ?? "n/a";
         InformationalVersion =
-            assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+            assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "n/a";
     }
     public static IResult Handle(HttpContext httpContext, MountedCertificateReader mountedCertificateReader)
     {
