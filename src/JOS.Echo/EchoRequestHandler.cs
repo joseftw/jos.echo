@@ -4,7 +4,6 @@ namespace JOS.Echo;
 
 public static class EchoRequestHandler
 {
-    private static readonly string Assembly;
     private static readonly string FileVersion;
     private static readonly string InformationalVersion;
 
@@ -12,7 +11,6 @@ public static class EchoRequestHandler
     {
         var assembly = typeof(Program).Assembly;
 
-        Assembly = assembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version ?? "n/a";
         FileVersion = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version ?? "n/a";
         InformationalVersion =
             assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "n/a";
@@ -24,7 +22,6 @@ public static class EchoRequestHandler
         {
             Version = new
             {
-                Assembly,
                 FileVersion,
                 InformationalVersion
             },
