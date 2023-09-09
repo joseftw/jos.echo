@@ -10,7 +10,6 @@ public static class EchoRequestHandler
     static EchoRequestHandler()
     {
         var assembly = typeof(Program).Assembly;
-
         FileVersion = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version ?? "n/a";
         InformationalVersion =
             assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "n/a";
@@ -27,11 +26,11 @@ public static class EchoRequestHandler
             },
             Certificate = new
             {
-                certificate?.NotBefore,
-                certificate?.NotAfter,
-                certificate?.SerialNumber,
-                Subject = certificate?.SubjectName.Name,
-                certificate?.Thumbprint
+                certificate.NotBefore,
+                certificate.NotAfter,
+                certificate.SerialNumber,
+                Subject = certificate.SubjectName.Name,
+                certificate.Thumbprint
             },
             Request = new
             {
