@@ -4,15 +4,15 @@ namespace JOS.Echo;
 
 public static class EchoRequestHandler
 {
-    private static readonly string FileVersion;
-    private static readonly string InformationalVersion;
+    private static readonly string? FileVersion;
+    private static readonly string? InformationalVersion;
 
     static EchoRequestHandler()
     {
         var assembly = typeof(Program).Assembly;
-        FileVersion = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version ?? "n/a";
+        FileVersion = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
         InformationalVersion =
-            assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "n/a";
+            assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
     }
     public static IResult Handle(HttpContext httpContext, CachingMountedCertificateReader certificateReader)
     {
