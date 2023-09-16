@@ -19,10 +19,17 @@ public static class EchoRequestHandler
         var certificate = certificateReader.Read();
         return Results.Ok(new
         {
-            Version = new
+            Meta = new
             {
-                FileVersion,
-                InformationalVersion
+                Version = new
+                {
+                    Dotnet = new
+                    {
+                        Environment.Version
+                    },
+                    FileVersion,
+                    InformationalVersion
+                }
             },
             Certificate = new
             {

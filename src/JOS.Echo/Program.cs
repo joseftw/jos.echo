@@ -1,7 +1,16 @@
+using System.Reflection;
 using JOS.Echo;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var version =
+    typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+
+builder.Logging.ClearProviders();
+var logger = new SerilogConfigurator(builder.Configuration, builder.Environment, version).Configure();
+builder.Logging.AddSerilog(logger);
+
 var tlsConfiguration = new TlsConfiguration();
 builder.Configuration.Bind("tls", tlsConfiguration);
 var serverConfiguration = new ServerConfiguration();
@@ -27,7 +36,10 @@ builder.WebHost.ConfigureKestrel((_, options) =>
     });
 });
 
+
 var app = builder.Build();
+app.Logger.LogInformation(
+    "Starting application in {Environment}", builder.Environment.EnvironmentName);
 
 app.MapGet("/health", () => Results.Ok());
 app.MapGet("/", (HttpContext httpContext, CachingMountedCertificateReader cachingMountedCertificateReader)
