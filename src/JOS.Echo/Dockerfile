@@ -1,9 +1,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as builder
 # https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-environment-variables
+ARG informationalVersion
+ARG version
 ENV NUGET_XMLDOC_MODE=none
 COPY . app/
 WORKDIR /app
 
+RUN dotnet build -c Release /p:AssemblyVersion=$version /p:InformationalVersion=$informationalVersion
+RUN dotnet test -c Release --no-build
 RUN dotnet publish src/JOS.Echo -c Release -o published --no-build
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0

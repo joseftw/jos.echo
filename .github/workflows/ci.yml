@@ -19,14 +19,6 @@ jobs:
           fetch-depth: 0
       - uses: dotnet/nbgv@master
         id: nbgv
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
-      - name: dotnet build
-        run: |
-          dotnet build -c Release /p:AssemblyVersion=${{ steps.nbgv.outputs.version }} /p:InformationalVersion=${{steps.nbgv.outputs.semver2}} --verbosity minimal
-          dotnet test -c Release --no-build
       - name: Docker - Login
         uses: docker/login-action@v2
         with:
@@ -36,6 +28,9 @@ jobs:
       - name: Docker - Build and Push
         uses: docker/build-push-action@v3
         with:
+          build-args: |
+            informationalVersion=${{ steps.nbgv.outputs.semver2 }}
+            version=${{ steps.nbgv.outputs.version }}
           context: .
           file: ./src/JOS.Echo/Dockerfile
           platforms: linux/amd64
