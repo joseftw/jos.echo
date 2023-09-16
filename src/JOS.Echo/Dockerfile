@@ -4,7 +4,7 @@ ENV NUGET_XMLDOC_MODE=none
 COPY . app/
 WORKDIR /app
 
-RUN dotnet publish src/JOS.Echo -c Release -o published
+RUN dotnet publish src/JOS.Echo -c Release -o published --no-build
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 
