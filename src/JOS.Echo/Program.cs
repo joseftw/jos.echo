@@ -1,9 +1,11 @@
+using System.Net;
 using System.Net.Quic;
 using System.Reflection;
 using JOS.Echo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +26,10 @@ var serverConfiguration = new ServerConfiguration();
 builder.Configuration.Bind("server", serverConfiguration);
 var certificateReader = new CachingMountedCertificateReader(new MountedCertificateReader(tlsConfiguration));
 builder.Services.AddSingleton(certificateReader);
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.All;
+});
 builder.WebHost.ConfigureKestrel((_, options) =>
 {
     options.ListenAnyIP(serverConfiguration.Port, listenOptions =>
@@ -47,6 +53,8 @@ builder.WebHost.ConfigureKestrel((_, options) =>
 var app = builder.Build();
 app.Logger.LogInformation(
     "Starting application in {Environment}", builder.Environment.EnvironmentName);
+
+app.UseForwardedHeaders();
 
 app.MapGet("/health", () => Results.Ok());
 app.MapGet("/", (HttpContext httpContext, CachingMountedCertificateReader cachingMountedCertificateReader)

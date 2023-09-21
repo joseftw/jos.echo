@@ -26,7 +26,6 @@ RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/22.04/packages-mic
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
 
-
 RUN apt-get update && apt-get -y install libcap2-bin
 RUN apt-get -y install libmsquic
 RUN setcap 'cap_net_bind_service=+ep' /usr/share/dotnet/dotnet
