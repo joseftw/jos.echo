@@ -1,4 +1,8 @@
-﻿using Serilog;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
 using ILogger = Serilog.ILogger;

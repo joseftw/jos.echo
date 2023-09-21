@@ -1,4 +1,8 @@
+using System;
+using System.Linq;
+using System.Net.Quic;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 
 namespace JOS.Echo;
 
@@ -21,6 +25,9 @@ public static class EchoRequestHandler
         {
             Meta = new
             {
+#pragma warning disable CA1416
+                QuickListener = QuicListener.IsSupported,
+#pragma warning restore CA1416
                 Version = new
                 {
                     Dotnet = new

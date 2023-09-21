@@ -15,7 +15,19 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 COPY --from=builder /app/published/ /app/
 WORKDIR /app
 
-RUN apt-get update && apt-get -y install libcap2-bin
+# Install libmsquic dependencies
+RUN apt update \
+    && apt install -y --no-install-recommends \
+        curl \
+        wget \
+        gnupg2 \
+        software-properties-common
+
+RUN curl -O https://packages.microsoft.com/debian/11/prod/pool/main/libm/libmsquic/libmsquic_2.1.7_amd64.deb
+RUN dpkg -i libmsquic_2.1.7_amd64.deb
+RUN rm libmsquic_2.1.7_amd64.deb
+
+RUN apt-get -y install libcap2-bin
 RUN setcap 'cap_net_bind_service=+ep' /usr/share/dotnet/dotnet
 
 USER 1000
