@@ -15,18 +15,20 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy
 COPY --from=builder /app/published/ /app/
 WORKDIR /app
 
-RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN rm packages-microsoft-prod.deb
 RUN apt update \
     && apt install -y --no-install-recommends \
         curl \
         wget \
         gnupg2 \
-        libmsquic \
         software-properties-common
 
-RUN apt-get -y install libcap2-bin
+RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+
+
+RUN apt-get update && apt-get -y install libcap2-bin
+RUN apt-get -y install libmsquic
 RUN setcap 'cap_net_bind_service=+ep' /usr/share/dotnet/dotnet
 
 USER 1000
