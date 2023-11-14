@@ -8,8 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-      <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918" />
+      <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
