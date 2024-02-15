@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 as builder
+FROM mcr.microsoft.com/dotnet/sdk:9.0-preview-jammy as builder
 # https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-environment-variables
 ARG informationalVersion
 ARG version
@@ -10,7 +10,7 @@ RUN dotnet build -c Release /p:AssemblyVersion=$version /p:InformationalVersion=
 RUN dotnet test -c Release --no-build
 RUN dotnet publish src/JOS.Echo -c Release -o published --no-build
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview-jammy
 
 COPY --from=builder /app/published/ /app/
 WORKDIR /app
