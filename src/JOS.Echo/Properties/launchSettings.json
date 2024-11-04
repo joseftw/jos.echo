@@ -4,8 +4,20 @@
     "http": {
       "commandName": "Project",
       "environmentVariables": {
-        "logging__output__console__json": "false",
-        "server__port": "5555"
+        "logging__output__console__json": "true",
+        "server__port": "5555",
+        "OPENTELEMETRY__LOGGING__ENABLED": "false",
+        "OPENTELEMETRY__LOGGING__CONSOLEENABLED": "true",
+        "OPENTELEMETRY__LOGGING__OLTPENABLED": "true",
+        "OPENTELEMETRY__LOGGING__OLTPEXPORTER__ENDPOINT": "https://alloy-grpc.local.josef.guru",
+        "OPENTELEMETRY__METRICS__ENABLED": "true",
+        "OPENTELEMETRY__METRICS__CONSOLEENABLED": "true",
+        "OPENTELEMETRY__METRICS__OLTPENABLED": "true",
+        "OPENTELEMETRY__METRICS__OLTPEXPORTER__ENDPOINT": "https://alloy-grpc.local.josef.guru",
+        "OPENTELEMETRY__TRACING__ENABLED": "true",
+        "OPENTELEMETRY__TRACING__CONSOLEENABLED": "true",
+        "OPENTELEMETRY__TRACING__OLTPENABLED": "true",
+        "OPENTELEMETRY__TRACING__OLTPEXPORTER__ENDPOINT": "https://alloy-grpc.local.josef.guru"
       }
     }
   }

@@ -1,5 +1,7 @@
+using JOS.Configuration;
 using JOS.Echo;
 using JOS.Echo.Logging;
+using JOS.Echo.OpenTelemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +14,7 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
 builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
     new SerilogConfigurator(
@@ -38,6 +41,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.All;
 });
+var openTelemetryConfiguration = builder.Configuration.GetRequiredOptions<OpenTelemetryConfiguration>("OpenTelemetry");
+builder.AddOpenTelemetry(openTelemetryConfiguration);
 builder.WebHost.ConfigureKestrel((_, options) =>
 {
     options.ListenAnyIP(serverConfiguration.Port, listenOptions =>
@@ -70,7 +75,6 @@ app.MapGet("/", EchoRequestHandler.Handle);
 try
 {
     await app.RunAsync();
-
 }
 finally
 {
