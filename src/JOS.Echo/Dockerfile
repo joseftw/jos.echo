@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0-jammy as builder
+FROM mcr.microsoft.com/dotnet/sdk:9.0 as builder
 # https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-environment-variables
 ARG informationalVersion
 ARG version
