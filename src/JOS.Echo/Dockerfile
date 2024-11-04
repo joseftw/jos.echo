@@ -10,7 +10,7 @@ RUN dotnet build -c Release /p:AssemblyVersion=$version /p:InformationalVersion=
 RUN dotnet test -c Release --no-build
 RUN dotnet publish src/JOS.Echo -c Release -o published --no-build
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview-jammy
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 
 COPY --from=builder /app/published/ /app/
 WORKDIR /app
