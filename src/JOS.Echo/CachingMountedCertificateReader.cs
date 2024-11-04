@@ -8,7 +8,7 @@ public class CachingMountedCertificateReader
 {
     private static readonly SemaphoreSlim Semaphore;
     private readonly MountedCertificateReader _certificateReader;
-    private static DateTime? LastRefreshed;
+    private static DateTime? _lastRefreshed;
     private static X509Certificate2? _certificate;
 
     static CachingMountedCertificateReader()
@@ -37,13 +37,14 @@ public class CachingMountedCertificateReader
         }
 
         _certificate = _certificateReader.Read();
-        LastRefreshed = DateTime.UtcNow;
+        _lastRefreshed = TimeProvider.System.GetUtcNow().DateTime;
         Semaphore.Release(1);
         return _certificate;
     }
 
     private static bool NeedsRefresh(X509Certificate2? certificate)
     {
-        return certificate is null || certificate.NotAfter <= DateTime.UtcNow || (DateTime.UtcNow - LastRefreshed!.Value).TotalMinutes >= 60;
+        var now = TimeProvider.System.GetUtcNow();
+        return certificate is null || certificate.NotAfter <= now || (now - _lastRefreshed!.Value).TotalMinutes >= 60;
     }
 }
