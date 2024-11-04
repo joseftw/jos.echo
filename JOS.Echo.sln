@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{DE57FBF1-6
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\ci.yml = .github\workflows\ci.yml
 		version.json = version.json
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Global
