@@ -5,4 +5,10 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <EnablePreviewFeatures>True</EnablePreviewFeatures>
     </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Serilog.AspNetCore" />
+      <PackageReference Include="Serilog.Exceptions" />
+      <PackageReference Include="Serilog.Formatting.Compact" />
+      <PackageReference Include="Serilog.Sinks.Console" />
+    </ItemGroup>
 </Project>

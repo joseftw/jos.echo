@@ -18,16 +18,15 @@ public static class EchoRequestHandler
         InformationalVersion =
             assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
     }
-    public static IResult Handle(HttpContext httpContext, CachingMountedCertificateReader certificateReader)
+
+    public static IResult Handle(HttpContext httpContext, ICertificateReader certificateReader)
     {
         var certificate = certificateReader.Read();
-        return Results.Ok(new
+        var data = new
         {
             Meta = new
             {
-#pragma warning disable CA1416
                 QuickListener = QuicListener.IsSupported,
-#pragma warning restore CA1416
                 Version = new
                 {
                     Dotnet = new
@@ -38,14 +37,16 @@ public static class EchoRequestHandler
                     InformationalVersion
                 }
             },
-            Certificate = new
-            {
-                certificate.NotBefore,
-                certificate.NotAfter,
-                certificate.SerialNumber,
-                Subject = certificate.SubjectName.Name,
-                certificate.Thumbprint
-            },
+            Certificate = certificate is null
+                ? null
+                : new
+                {
+                    certificate.NotBefore,
+                    certificate.NotAfter,
+                    certificate.SerialNumber,
+                    Subject = certificate.SubjectName.Name,
+                    certificate.Thumbprint
+                },
             Request = new
             {
                 Connection = new
@@ -59,6 +60,8 @@ public static class EchoRequestHandler
                 Headers = httpContext.Request.Headers.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value),
                 httpContext.Request.Protocol
             }
-        });
+        };
+
+        return Results.Ok(data);
     }
 }

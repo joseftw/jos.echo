@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace JOS.Echo;
 
-public class CachingMountedCertificateReader
+public class CachingMountedCertificateReader : ICertificateReader
 {
     private static readonly SemaphoreSlim Semaphore;
     private readonly MountedCertificateReader _certificateReader;

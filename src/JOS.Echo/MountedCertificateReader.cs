@@ -3,7 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace JOS.Echo;
 
-public class MountedCertificateReader
+public class MountedCertificateReader : ICertificateReader
 {
     private readonly TlsConfiguration _tlsConfiguration;
 

@@ -4,9 +4,8 @@
     "http": {
       "commandName": "Project",
       "environmentVariables": {
-        "server__port": "5555",
-        "tls__certificate__certificatefile": "/tmp/certs/tls.crt",
-        "tls__certificate__keyfile": "/tmp/certs/tls.key"
+        "logging__output__console__json": "false",
+        "server__port": "5555"
       }
     }
   }
