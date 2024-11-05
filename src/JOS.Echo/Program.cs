@@ -40,6 +40,7 @@ builder.Configuration.Bind("server", serverConfiguration);
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.All;
+    options.ForwardLimit = null;
 });
 var openTelemetryConfiguration = builder.Configuration.GetRequiredOptions<OpenTelemetryConfiguration>("OpenTelemetry");
 builder.AddOpenTelemetry(openTelemetryConfiguration);
