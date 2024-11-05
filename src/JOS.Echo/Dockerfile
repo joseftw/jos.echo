@@ -22,12 +22,12 @@ RUN apt update \
         gnupg2 \
         software-properties-common
 
-RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
+RUN curl -sSL -O https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb --output packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
 
-RUN apt-get update && apt-get -y install libcap2-bin
-RUN apt-get -y install libmsquic
+RUN apt update && apt install -y libmsquic
+RUN apt clean -y
 RUN setcap 'cap_net_bind_service=+ep' /usr/share/dotnet/dotnet
 
 USER 1000
