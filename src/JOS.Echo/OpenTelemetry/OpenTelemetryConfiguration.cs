@@ -5,9 +5,9 @@ namespace JOS.Echo.OpenTelemetry;
 
 public class OpenTelemetryConfiguration
 {
-    public OpenTelemetryLogging Logging { get; init; }
-    public OpenTelemetryMetrics Metrics { get; init; }
-    public OpenTelemetryTracing Tracing { get; init; }
+    public OpenTelemetryLogging Logging { get; init; } = null!;
+    public OpenTelemetryMetrics Metrics { get; init; } = null!;
+    public OpenTelemetryTracing Tracing { get; init; } = null!;
 }
 
 public class OpenTelemetryLogging

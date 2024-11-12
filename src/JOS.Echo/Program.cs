@@ -1,6 +1,5 @@
 using JOS.Configuration;
 using JOS.Echo;
-using JOS.Echo.Logging;
 using JOS.Echo.OpenTelemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,17 +9,8 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Logging.ClearProviders();
-builder.Host.UseSerilog((context, loggerConfiguration) =>
-{
-    new SerilogConfigurator(
-            context.Configuration, context.HostingEnvironment, ThisAssembly.AssemblyInformationalVersion)
-        .Configure(loggerConfiguration);
-});
 
 var tlsConfiguration = new TlsConfiguration();
 builder.Configuration.Bind("tls", tlsConfiguration);
@@ -65,13 +55,14 @@ builder.WebHost.ConfigureKestrel((_, options) =>
 });
 
 var app = builder.Build();
-app.Logger.LogInformation(
-    "Starting application in {Environment}", builder.Environment.EnvironmentName);
+app.Logger.LogInformation("Starting application in {Environment}", builder.Environment.EnvironmentName);
 
 app.UseForwardedHeaders();
 
 app.MapGet("/health", () => Results.Ok());
 app.MapGet("/", EchoRequestHandler.Handle);
+
+app.Logger.LogInformation("Let's do this Josef");
 
 try
 {
@@ -79,6 +70,6 @@ try
 }
 finally
 {
-    await Log.CloseAndFlushAsync();
+    //await Log.CloseAndFlushAsync();
 }
 

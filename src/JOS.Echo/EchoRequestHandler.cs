@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Quic;
 using System.Reflection;
@@ -8,6 +9,7 @@ namespace JOS.Echo;
 
 public static class EchoRequestHandler
 {
+    private static readonly ActivitySource Source = new(OTELActivitySource.JOSEcho, "1.0.0");
     private static readonly string? FileVersion;
     private static readonly string? InformationalVersion;
 
@@ -21,6 +23,7 @@ public static class EchoRequestHandler
 
     public static IResult Handle(HttpContext httpContext, ICertificateReader certificateReader)
     {
+        using var activity = Source.StartActivity("Handle", ActivityKind.Internal);
         var certificate = certificateReader.Read();
         var data = new
         {

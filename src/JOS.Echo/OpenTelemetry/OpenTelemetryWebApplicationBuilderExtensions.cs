@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -13,7 +14,10 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
         this WebApplicationBuilder builder, OpenTelemetryConfiguration openTelemetryConfiguration)
     {
         var openTelemetryBuilder = builder.Services.AddOpenTelemetry();
-        openTelemetryBuilder.ConfigureResource(b => { b.AddService("JOS.Echo"); });
+        openTelemetryBuilder.ConfigureResource(b =>
+        {
+            b.AddService("JOS.Echo");
+        });
         if (openTelemetryConfiguration.Logging.Enabled)
         {
             openTelemetryBuilder.WithLogging(l =>
@@ -27,6 +31,7 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
                 {
                     l.AddOtlpExporter(options =>
                     {
+                        options.Protocol = OtlpExportProtocol.HttpProtobuf;
                         options.Endpoint = openTelemetryConfiguration.Logging.OLTPExporter.Endpoint;
                     });
                 }
@@ -40,6 +45,13 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
                 m.AddAspNetCoreInstrumentation();
                 m.AddRuntimeInstrumentation();
                 m.AddHttpClientInstrumentation();
+                m.AddMeter("Microsoft.AspNetCore.Hosting");
+                m.AddMeter("Microsoft.AspNetCore.Server.Kestrel");
+                var meters = OTELActivitySource.GetAll();
+                foreach (var meter in meters)
+                {
+                    m.AddMeter(meter);
+                }
                 if (openTelemetryConfiguration.Metrics.ConsoleEnabled)
                 {
                     m.AddConsoleExporter();
@@ -49,6 +61,7 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
                 {
                     m.AddOtlpExporter(options =>
                     {
+                        options.Protocol = OtlpExportProtocol.HttpProtobuf;
                         options.Endpoint = openTelemetryConfiguration.Logging.OLTPExporter.Endpoint;
                     });
                 }
@@ -61,6 +74,11 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
             {
                 t.AddAspNetCoreInstrumentation();
                 t.AddHttpClientInstrumentation();
+                var meters = OTELActivitySource.GetAll();
+                foreach (var meter in meters)
+                {
+                    t.AddSource(meter);
+                }
                 if (openTelemetryConfiguration.Tracing.ConsoleEnabled)
                 {
                     t.AddConsoleExporter();
@@ -70,6 +88,7 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
                 {
                     t.AddOtlpExporter(options =>
                     {
+                        options.Protocol = OtlpExportProtocol.HttpProtobuf;
                         options.Endpoint = openTelemetryConfiguration.Logging.OLTPExporter.Endpoint;
                     });
                 }
