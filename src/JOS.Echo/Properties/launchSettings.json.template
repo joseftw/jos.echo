@@ -14,10 +14,10 @@
         "OTEL__EXPORTER__OTLP__METRICS__CONSOLEENABLED": "true",
         "OTEL__EXPORTER__OTLP__METRICS__OLTPENABLED": "true",
         "OTEL__EXPORTER__OTLP__METRICS__ENDPOINT": "https://alloy-http.local.josef.guru:4318",
-        "OTEL__EXPORTER__OTLP__TRACES__ENABLED": "false",
-        "OTEL__EXPORTER__OTLP__TRACES__CONSOLEENABLED": "false",
-        "OTEL__EXPORTER__OTLP__TRACES__OLTPENABLED": "false",
-        "OTEL__EXPORTER__OTLP__TRACES__ENDPOINT": "https://alloy-http.local.josef.guru:4318"
+        "OTEL__EXPORTER__OTLP__TRACES__ENABLED": "true",
+        "OTEL__EXPORTER__OTLP__TRACES__CONSOLEENABLED": "true",
+        "OTEL__EXPORTER__OTLP__TRACES__OLTPENABLED": "true",
+        "OTEL__EXPORTER__OTLP__TRACES__ENDPOINT": "https://alloy-http.local.josef.guru/v1/traces"
       }
     }
   }
