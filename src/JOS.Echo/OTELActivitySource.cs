@@ -13,5 +13,4 @@ public partial class OTELActivitySource : IEnumeration<string, OTELActivitySourc
     }
 
     public ActivitySource Source { get; }
-
 }

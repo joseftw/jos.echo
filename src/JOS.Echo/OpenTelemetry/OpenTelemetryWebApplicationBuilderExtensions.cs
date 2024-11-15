@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Exporter;
@@ -18,21 +19,22 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
         {
             b.AddService("JOS.Echo");
         });
-        if (openTelemetryConfiguration.Logging.Enabled)
+        if (openTelemetryConfiguration.Logs.Enabled)
         {
             openTelemetryBuilder.WithLogging(l =>
             {
-                if (openTelemetryConfiguration.Logging.ConsoleEnabled)
+                if (openTelemetryConfiguration.Logs.ConsoleEnabled)
                 {
                     l.AddConsoleExporter();
                 }
 
-                if (openTelemetryConfiguration.Logging.OLTPEnabled)
+                if (openTelemetryConfiguration.Logs.OLTPEnabled)
                 {
                     l.AddOtlpExporter(options =>
                     {
                         options.Protocol = OtlpExportProtocol.HttpProtobuf;
-                        options.Endpoint = openTelemetryConfiguration.Logging.OLTPExporter.Endpoint;
+                        options.Endpoint = openTelemetryConfiguration.Logs.Endpoint ??
+                                           throw new Exception("Logs Endpoint can't be null if enabled");
                     });
                 }
             });
@@ -62,13 +64,14 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
                     m.AddOtlpExporter(options =>
                     {
                         options.Protocol = OtlpExportProtocol.HttpProtobuf;
-                        options.Endpoint = openTelemetryConfiguration.Logging.OLTPExporter.Endpoint;
+                        options.Endpoint = openTelemetryConfiguration.Metrics?.Endpoint ??
+                                           throw new Exception("Metrics Endpoint can't be null if enabled");
                     });
                 }
             });
         }
 
-        if (openTelemetryConfiguration.Tracing.Enabled)
+        if (openTelemetryConfiguration.Traces.Enabled)
         {
             openTelemetryBuilder.WithTracing(t =>
             {
@@ -79,17 +82,18 @@ public static class OpenTelemetryWebApplicationBuilderExtensions
                 {
                     t.AddSource(meter);
                 }
-                if (openTelemetryConfiguration.Tracing.ConsoleEnabled)
+                if (openTelemetryConfiguration.Traces.ConsoleEnabled)
                 {
                     t.AddConsoleExporter();
                 }
 
-                if (openTelemetryConfiguration.Tracing.OLTPEnabled)
+                if (openTelemetryConfiguration.Traces.OLTPEnabled)
                 {
                     t.AddOtlpExporter(options =>
                     {
                         options.Protocol = OtlpExportProtocol.HttpProtobuf;
-                        options.Endpoint = openTelemetryConfiguration.Logging.OLTPExporter.Endpoint;
+                        options.Endpoint = openTelemetryConfiguration.Traces?.Endpoint ??
+                                           throw new Exception("Traces Endpoint can't be null if enabled");;
                     });
                 }
             });

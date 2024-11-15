@@ -32,7 +32,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.ForwardedHeaders = ForwardedHeaders.All;
     options.ForwardLimit = null;
 });
-var openTelemetryConfiguration = builder.Configuration.GetRequiredOptions<OpenTelemetryConfiguration>("OpenTelemetry");
+var openTelemetryConfiguration =
+    builder.Configuration.GetRequiredOptions<OpenTelemetryConfiguration>("OTEL:EXPORTER:OTLP");
 builder.AddOpenTelemetry(openTelemetryConfiguration);
 builder.WebHost.ConfigureKestrel((_, options) =>
 {
@@ -64,12 +65,4 @@ app.MapGet("/", EchoRequestHandler.Handle);
 
 app.Logger.LogInformation("Let's do this Josef");
 
-try
-{
-    await app.RunAsync();
-}
-finally
-{
-    //await Log.CloseAndFlushAsync();
-}
-
+await app.RunAsync();
