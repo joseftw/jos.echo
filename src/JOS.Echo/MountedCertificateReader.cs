@@ -6,7 +6,7 @@ namespace JOS.Echo;
 
 public class MountedCertificateReader : ICertificateReader
 {
-    private static readonly ActivitySource source = new("JOS.MountedCertificateReader", "1.0.0");
+    private static readonly ActivitySource Source = new("JOS.MountedCertificateReader", "1.0.0");
     private readonly TlsConfiguration _tlsConfiguration;
 
     public MountedCertificateReader(TlsConfiguration tlsConfiguration)
@@ -16,7 +16,7 @@ public class MountedCertificateReader : ICertificateReader
 
     public X509Certificate2 Read()
     {
-        using var activity = source.StartActivity("ReadCertificate", ActivityKind.Internal);
+        using var activity = Source.StartActivity("ReadCertificate", ActivityKind.Internal);
         {
             if (!_tlsConfiguration.HasCertificate)
             {
